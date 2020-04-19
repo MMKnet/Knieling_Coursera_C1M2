@@ -8,10 +8,25 @@
 # misuse of this material. 
 #
 #*****************************************************************************
-
-# Add your Source files to this variable
-SOURCES =
-
-# Add your include paths to this variable
-INCLUDES = 
-
+#--- if statement to distinguish between platforms ---
+ifeq ($(PLATFORM),HOST)
+# Host platform
+SOURCES = main.c\
+memory.c
+# paths for Host platform
+INCLUDES = -I../include/common \
+	-I../src
+else ifeq ($(PLATFORM),MSP432)
+# MSP432 platform
+# Source files for MSP432 platform
+SOURCES = main.c \
+	memory.c \
+	startup_msp432p401r_gcc.c \
+	system_msp432p401r.c \
+	interrupts_msp432p401r_gcc.c
+# paths for MSP432 platform
+INCLUDES = -I../include/common \
+	-I../include/msp432 \
+	-I../include/CMSIS \
+	-I../src
+endif
